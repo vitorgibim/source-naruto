@@ -4632,6 +4632,7 @@ bool Game::combatBlockHit(CombatType_t combatType, Creature* attacker, Creature*
 		return false;
 
 	const Position& targetPos = target->getPosition();
+	int32_t lifeLeech, manaLeech, lifeAbsorb, manaAbsorb = 0;
 	const SpectatorVec& list = getSpectators(targetPos);
 	if(Combat::canDoCombat(attacker, target, true) != RET_NOERROR)
 	{
@@ -4842,7 +4843,6 @@ bool Game::combatChangeHealth(const CombatParams& params, Creature* attacker, Cr
 						addAnimatedText(target->getPosition(), COLOR_BLUE, "Dodge!");
 					}
 				}
-
 				bool deny = false;
 				CreatureEventList statsChangeEvents = target->getCreatureEvents(CREATURE_EVENT_STATSCHANGE);
 				for(CreatureEventList::iterator it = statsChangeEvents.begin(); it != statsChangeEvents.end(); ++it)
@@ -4975,6 +4975,50 @@ bool Game::combatChangeHealth(const CombatParams& params, Creature* attacker, Cr
 
 						player->sendStatsMessage(MSG_DAMAGE_RECEIVED, ss.str(), targetPos);
 					}
+
+					if(attacker && (player = attacker->getPlayer()))
+					{
+						if(attacker->getPlayer()->getLifeLeech() > 0)
+						{
+							lifeLeech = damage * (attacker->getPlayer()->getLifeLeech() * 0.01);
+							if(damage > 0)
+							{
+								combatChangeHealth(params, target, attacker, lifeLeech, true);
+							}
+						}
+						
+						if(attacker->getPlayer()->getManaLeech() > 0)
+						{
+							manaLeech = damage * (attacker->getPlayer()->getManaLeech() * 0.01);
+							if(damage > 0)
+							{
+								combatChangeMana(target, attacker, manaLeech, params.combatType, true);
+							}
+						}
+					}
+					
+					
+// Absorb
+					if((player = target->getPlayer()) && (attacker != target))
+					{
+						if(target->getPlayer()->getLifeAbsorb() > 0)
+						{
+							lifeAbsorb = damage * (target->getPlayer()->getLifeAbsorb() * 0.01);
+							if(damage > 0)
+							{
+								combatChangeHealth(params, attacker, target, lifeAbsorb, true);
+							}
+						}
+						
+						if(target->getPlayer()->getManaAbsorb() > 0)
+						{
+							manaAbsorb = damage * (target->getPlayer()->getManaAbsorb() * 0.01);
+							if(damage > 0)
+							{
+								combatChangeMana(attacker, target, manaAbsorb, params.combatType, true);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -4987,6 +5031,7 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, int32_t manaCh
 	CombatType_t combatType/* = COMBAT_MANADRAIN*/, bool inherited/* = false*/)
 {
 	const Position& targetPos = target->getPosition();
+	int32_t lifeLeech, manaLeech, lifeAbsorb, manaAbsorb = 0;
 	if(manaChange > 0)
 	{
 		bool deny = false;
