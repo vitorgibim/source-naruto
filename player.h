@@ -718,7 +718,7 @@ class Player : public Creature, public Cylinder
 		void sendRuleViolationCancel(const std::string& name)
 			{if(client) client->sendRuleViolationCancel(name);}
 
-		void sendCritical() const;
+		/*void sendCritical() const;*/
 		void sendPlayerIcons(Player* player);
 		void sendStats();
 

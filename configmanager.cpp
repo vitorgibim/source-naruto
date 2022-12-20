@@ -173,7 +173,7 @@ bool ConfigManager::load()
 	m_confNumber[ACTIONS_DELAY_INTERVAL] = getGlobalNumber("timeBetweenActions", 200);
 	m_confNumber[EX_ACTIONS_DELAY_INTERVAL] = getGlobalNumber("timeBetweenExActions", 1000);
 	m_confNumber[CUSTOM_ACTIONS_DELAY_INTERVAL] = getGlobalNumber("timeBetweenCustomActions", 500);
-	m_confNumber[CRITICAL_HIT_CHANCE] = getGlobalNumber("criticalHitChance", 5);
+	
 	m_confBool[REMOVE_WEAPON_AMMO] = getGlobalBool("removeWeaponAmmunition", true);
 	m_confBool[REMOVE_WEAPON_CHARGES] = getGlobalBool("removeWeaponCharges", true);
 	m_confBool[REMOVE_RUNE_CHARGES] = getGlobalBool("removeRuneCharges", true);
@@ -223,7 +223,7 @@ bool ConfigManager::load()
 	m_confBool[TELEPORT_SUMMONS] = getGlobalBool("teleportAllSummons", false);
 	m_confBool[TELEPORT_PLAYER_SUMMONS] = getGlobalBool("teleportPlayerSummons", false);
 	m_confBool[PVP_TILE_IGNORE_PROTECTION] = getGlobalBool("pvpTileIgnoreLevelAndVocationProtection", true);
-	m_confBool[DISPLAY_CRITICAL_HIT] = getGlobalBool("displayCriticalHitNotify", false);
+	
 	m_confBool[CLEAN_PROTECTED_ZONES] = getGlobalBool("cleanProtectedZones", true);
 	m_confBool[SPELL_NAME_INSTEAD_WORDS] = getGlobalBool("spellNameInsteadOfWords", false);
 	m_confBool[EMOTE_SPELLS] = getGlobalBool("emoteSpells", false);
@@ -244,7 +244,7 @@ bool ConfigManager::load()
 	m_confNumber[LOGIN_PROTECTION] = getGlobalNumber("loginProtectionPeriod", 10000);
 	m_confBool[STORE_DIRECTION] = getGlobalBool("storePlayerDirection", false);
 	m_confNumber[PLAYER_DEEPNESS] = getGlobalNumber("playerQueryDeepness", -1);
-	m_confDouble[CRITICAL_HIT_MUL] = getGlobalDouble("criticalHitMultiplier", 1);
+	
 	m_confNumber[STAIRHOP_DELAY] = getGlobalNumber("stairhopDelay", 2 * 1000);
 	m_confNumber[RATE_STAMINA_LOSS] = getGlobalNumber("rateStaminaLoss", 1);
 	m_confDouble[RATE_STAMINA_GAIN] = getGlobalDouble("rateStaminaGain", 3);
