@@ -4711,6 +4711,7 @@ bool Game::combatChangeHealth(CombatType_t combatType, Creature* attacker, Creat
 bool Game::combatChangeHealth(const CombatParams& params, Creature* attacker, Creature* target, int32_t healthChange, bool force)
 {
 	const Position& targetPos = target->getPosition();
+	int32_t lifeLeech, manaLeech, lifeAbsorb, manaAbsorb = 0;
 	if(healthChange > 0)
 	{
 		if(!force && target->getHealth() <= 0)
@@ -4824,6 +4825,24 @@ bool Game::combatChangeHealth(const CombatParams& params, Creature* attacker, Cr
 			damage = std::min(target->getHealth(), damage);
 			if(damage > 0)
 			{
+				Player* player = NULL;
+				if(attacker && (player = attacker->getPlayer()))
+				{
+					if(random_range(1,100) < attacker->getPlayer()->getCriticalHitChance())
+					{
+						damage = damage * 2;
+						addAnimatedText(attacker->getPosition(), COLOR_DARKRED, "Critical!");
+					}	
+				}
+				if((player = target->getPlayer()) && (attacker != target) && target == player)
+				{
+					if(random_range(1,100) < target->getPlayer()->getDodgeChance())
+					{
+						damage = damage * 0.5;
+						addAnimatedText(target->getPosition(), COLOR_BLUE, "Dodge!");
+					}
+				}
+
 				bool deny = false;
 				CreatureEventList statsChangeEvents = target->getCreatureEvents(CREATURE_EVENT_STATSCHANGE);
 				for(CreatureEventList::iterator it = statsChangeEvents.begin(); it != statsChangeEvents.end(); ++it)
@@ -5122,6 +5141,51 @@ bool Game::combatChangeMana(Creature* attacker, Creature* target, int32_t manaCh
 
 				player->sendStatsMessage(MSG_DAMAGE_RECEIVED, ss.str(), targetPos);
 			}
+
+			// Life e Mana Leech
+			if(attacker && (player = attacker->getPlayer()))
+			{
+				if(attacker->getPlayer()->getLifeLeech() > 0)
+				{
+					lifeLeech = manaLoss * (attacker->getPlayer()->getLifeLeech() * 0.01);
+					if(manaLoss > 0)
+					{
+						combatChangeHealth(manaLoss < 1 ? COMBAT_UNDEFINEDDAMAGE : COMBAT_HEALING, target, attacker, lifeLeech, MAGIC_EFFECT_UNKNOWN, COLOR_UNKNOWN, false);
+					}
+				}
+				
+				if(attacker->getPlayer()->getManaLeech() > 0)
+				{
+					manaLeech = manaLoss * (attacker->getPlayer()->getManaLeech() * 0.01);
+					if(manaLoss > 0)
+					{
+						combatChangeMana(target, attacker, manaLeech, combatType, true);
+					}
+				}
+			}
+
+// Life e Mana Absorb
+			if((player = target->getPlayer()) && (attacker != target))
+			{
+				if(target->getPlayer()->getLifeAbsorb() > 0)
+				{
+					lifeAbsorb = manaLoss * (target->getPlayer()->getLifeAbsorb() * 0.01);
+					if(manaLoss > 0)
+					{
+						combatChangeHealth(manaLoss < 1 ? COMBAT_UNDEFINEDDAMAGE : COMBAT_HEALING, attacker, target, lifeAbsorb, MAGIC_EFFECT_UNKNOWN, COLOR_UNKNOWN, false);
+					}
+				}
+				
+				if(target->getPlayer()->getManaAbsorb() > 0)
+				{
+					manaAbsorb = manaLoss * (target->getPlayer()->getManaAbsorb() * 0.01);
+					if(manaLoss > 0)
+					{
+						combatChangeMana(attacker, target, manaAbsorb, combatType, true);
+					}
+				}
+			}
+
 		}
 	}
 

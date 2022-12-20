@@ -433,6 +433,18 @@ int32_t Player::getArmor() const
 	return armor;
 }
 
+// int32_t Player::getCriticalHitChance() const
+// {
+// 	int32_t i = SLOT_FIRST, crit = 0;
+// 	for(; i < SLOT_LAST; ++i)
+// 	{
+// 		if(Item* item = getInventoryItem((slots_t)i))
+// 		crit += item->getCriticalHitChance();
+// 	}
+
+// 	return crit;
+// }
+
 int32_t Player::getCriticalHitChance() const
 {
 	int32_t i = SLOT_FIRST, crit = 0;
@@ -441,8 +453,66 @@ int32_t Player::getCriticalHitChance() const
 		if(Item* item = getInventoryItem((slots_t)i))
 		crit += item->getCriticalHitChance();
 	}
-
 	return crit;
+}
+
+int32_t Player::getDodgeChance() const
+{
+	int32_t i = SLOT_FIRST, dodge = 0;
+	for(; i < SLOT_LAST; ++i)
+	{
+		if(Item* item = getInventoryItem((slots_t)i))
+		dodge += item->getDodgeChance();
+	}
+	return dodge;
+}
+
+int32_t Player::getLifeAbsorb() const
+{
+	int32_t i = SLOT_FIRST, life = 0;
+	for(; i < SLOT_LAST; ++i)
+	{
+		if(Item* item = getInventoryItem((slots_t)i))
+		life += item->getLifeAbsorb();
+	}
+
+	return life;
+}
+
+int32_t Player::getManaAbsorb() const
+{
+	int32_t i = SLOT_FIRST, mana = 0;
+	for(; i < SLOT_LAST; ++i)
+	{
+		if(Item* item = getInventoryItem((slots_t)i))
+		mana += item->getManaAbsorb();
+	}
+
+	return mana;
+}
+
+int32_t Player::getLifeLeech() const
+{
+	int32_t i = SLOT_FIRST, life = 0;
+	for(; i < SLOT_LAST; ++i)
+	{
+		if(Item* item = getInventoryItem((slots_t)i))
+		life += item->getLifeLeech();
+	}
+
+	return life;
+}
+
+int32_t Player::getManaLeech() const
+{
+	int32_t i = SLOT_FIRST, mana = 0;
+	for(; i < SLOT_LAST; ++i)
+	{
+		if(Item* item = getInventoryItem((slots_t)i))
+		mana += item->getManaLeech();
+	}
+
+	return mana;
 }
 
 void Player::getShieldAndWeapon(const Item* &_shield, const Item* &_weapon) const

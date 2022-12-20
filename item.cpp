@@ -409,6 +409,16 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
+		// case ATTR_CRITICALHITCHANCE:
+		// {
+		// 	int32_t criticalHitChance;
+		// 	if(!propStream.getLong((uint32_t&)criticalHitChance))
+		// 		return ATTR_READ_ERROR;
+
+		// 	setAttribute("criticalhitchance", criticalHitChance);
+		// 	break;
+		// }
+
 		case ATTR_CRITICALHITCHANCE:
 		{
 			int32_t criticalHitChance;
@@ -416,6 +426,56 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 				return ATTR_READ_ERROR;
 
 			setAttribute("criticalhitchance", criticalHitChance);
+			break;
+		}
+
+		case ATTR_DODGECHANCE:
+		{
+			int32_t dodgeChance;
+			if(!propStream.getLong((uint32_t&)dodgeChance))
+				return ATTR_READ_ERROR;
+
+			setAttribute("dodgechance", dodgeChance);
+			break;
+		}
+
+		case ATTR_LIFEABSORB:
+		{
+			int32_t lifeAbsorb;
+			if(!propStream.getLong((uint32_t&)lifeAbsorb))
+				return ATTR_READ_ERROR;
+
+			setAttribute("lifeabsorb", lifeAbsorb);
+			break;
+		}
+
+		case ATTR_MANAABSORB:
+		{
+			int32_t manaAbsorb;
+			if(!propStream.getLong((uint32_t&)manaAbsorb))
+				return ATTR_READ_ERROR;
+
+			setAttribute("manaabsorb", manaAbsorb);
+			break;
+		}
+
+		case ATTR_LIFELEECH:
+		{
+			int32_t lifeLeech;
+			if(!propStream.getLong((uint32_t&)lifeLeech))
+				return ATTR_READ_ERROR;
+
+			setAttribute("lifeleech", lifeLeech);
+			break;
+		}
+
+		case ATTR_MANALEECH:
+		{
+			int32_t manaLeech;
+			if(!propStream.getLong((uint32_t&)manaLeech))
+				return ATTR_READ_ERROR;
+
+			setAttribute("manaleech", manaLeech);
 			break;
 		}
 
@@ -929,6 +989,78 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << ", ";
 				s << "Crit Chance:" << std::showpos << int32_t(item ? item->getCriticalHitChance() : it.criticalHitChance) << "%"<< std::noshowpos;
 		}
+		
+		if(it.dodgeChance || (item && item->getDodgeChance()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Dodge Chance:" << std::showpos << int32_t(item ? item->getDodgeChance() : it.dodgeChance) << "%"<< std::noshowpos;
+		}
+
+		if(it.lifeAbsorb || (item && item->getLifeAbsorb()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Life Absorb:" << std::showpos << int32_t(item ? item->getLifeAbsorb() : it.lifeAbsorb) << "%"<< std::noshowpos;
+		}
+		
+		if(it.manaAbsorb || (item && item->getManaAbsorb()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Mana Absorb:" << std::showpos << int32_t(item ? item->getManaAbsorb() : it.manaAbsorb) << "%"<< std::noshowpos;
+		}
+
+		if(it.lifeLeech || (item && item->getLifeLeech()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Life Leech:" << std::showpos << int32_t(item ? item->getLifeLeech() : it.lifeLeech) << "%"<< std::noshowpos;
+		}
+		
+		if(it.manaLeech || (item && item->getManaLeech()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Mana Leech:" << std::showpos << int32_t(item ? item->getManaLeech() : it.manaLeech) << "%"<< std::noshowpos;
+		}
+
+		// if(it.criticalHitChance || (item && item->getCriticalHitChance()))
+		// {
+		// 	if(begin)
+		// 	{
+		// 		begin = false;
+		// 		s << " (";
+		// 	}
+		// 	else
+		// 		s << ", ";
+		// 		s << "Crit Chance:" << std::showpos << int32_t(item ? item->getCriticalHitChance() : it.criticalHitChance) << "%"<< std::noshowpos;
+		// }
 
 		if(it.attackSpeed || (item && item->getAttackSpeed()))
 		{
@@ -1225,6 +1357,18 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 			begin = false;
 		}
 
+		// if(it.criticalHitChance || (item && item->getCriticalHitChance()))
+		// {
+		// 	if(begin)
+		// 	{
+		// 		begin = false;
+		// 		s << " (";
+		// 	}
+		// 	else
+		// 		s << ", ";
+		// 		s << "Crit Chance:" << std::showpos << int32_t(item ? item->getCriticalHitChance() : it.criticalHitChance) << "%"<< std::noshowpos;
+		// }
+
 		if(it.criticalHitChance || (item && item->getCriticalHitChance()))
 		{
 			if(begin)
@@ -1235,6 +1379,66 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 			else
 				s << ", ";
 				s << "Crit Chance:" << std::showpos << int32_t(item ? item->getCriticalHitChance() : it.criticalHitChance) << "%"<< std::noshowpos;
+		}
+		
+		if(it.dodgeChance || (item && item->getDodgeChance()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Dodge Chance:" << std::showpos << int32_t(item ? item->getDodgeChance() : it.dodgeChance) << "%"<< std::noshowpos;
+		}
+
+		if(it.lifeAbsorb || (item && item->getLifeAbsorb()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Life Absorb:" << std::showpos << int32_t(item ? item->getLifeAbsorb() : it.lifeAbsorb) << "%"<< std::noshowpos;
+		}
+		
+		if(it.manaAbsorb || (item && item->getManaAbsorb()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Mana Absorb:" << std::showpos << int32_t(item ? item->getManaAbsorb() : it.manaAbsorb) << "%"<< std::noshowpos;
+		}
+
+		if(it.lifeLeech || (item && item->getLifeLeech()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Life Leech:" << std::showpos << int32_t(item ? item->getLifeLeech() : it.lifeLeech) << "%"<< std::noshowpos;
+		}
+		
+		if(it.manaLeech || (item && item->getManaLeech()))
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+				s << "Mana Leech:" << std::showpos << int32_t(item ? item->getManaLeech() : it.manaLeech) << "%"<< std::noshowpos;
 		}
 
 		if(it.hasAbilities())

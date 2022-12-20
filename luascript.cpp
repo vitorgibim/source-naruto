@@ -1468,6 +1468,24 @@ void LuaInterface::registerFunctions()
 	//getCreatureHealth(cid)
 	lua_register(m_luaState, "getCreatureHealth", LuaInterface::luaGetCreatureHealth);
 
+	//getPlayerCriticalHitChance(cid)
+	lua_register(m_luaState, "getPlayerCriticalHitChance", LuaInterface::luaGetPlayerCriticalHitChance);
+
+	//getPlayerDodgeChance(cid)
+	lua_register(m_luaState, "getPlayerDodgeChance", LuaInterface::luaGetPlayerDodgeChance);
+	
+	//getPlayerLifeAbsorb(cid)
+	lua_register(m_luaState, "getPlayerLifeAbsorb", LuaInterface::luaGetPlayerLifeAbsorb);
+	
+	//getPlayerManaAbsorb(cid)
+	lua_register(m_luaState, "getPlayerManaAbsorb", LuaInterface::luaGetPlayerManaAbsorb);
+
+	//getPlayerLifeLeech(cid)
+	lua_register(m_luaState, "getPlayerLifeLeech", LuaInterface::luaGetPlayerLifeLeech);
+	
+	//getPlayerManaLeech(cid)
+	lua_register(m_luaState, "getPlayerManaLeech", LuaInterface::luaGetPlayerManaLeech);
+
 	//getCreatureMaxHealth(cid[, ignoreModifiers = false])
 	lua_register(m_luaState, "getCreatureMaxHealth", LuaInterface::luaGetCreatureMaxHealth);
 
@@ -9414,6 +9432,95 @@ int32_t LuaInterface::luaGetCreatureMaxHealth(lua_State* L)
 	ScriptEnviroment* env = getEnv();
 	if(Creature* creature = env->getCreatureByUID(popNumber(L)))
 		lua_pushnumber(L, creature->getPlayer() && ignoreModifiers ? creature->healthMax : creature->getMaxHealth());
+	else
+	{
+		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerCriticalHitChance(lua_State* L)
+{
+	//getPlayerCriticalHitChance(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getCriticalHitChance());
+	else
+	{
+		errorEx(getError(LUA_ERROR_PLAYER_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerDodgeChance(lua_State* L)
+{
+	//getPlayerDodgeChance(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getDodgeChance());
+	else
+	{
+		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerLifeAbsorb(lua_State* L)
+{
+	//getPlayerLifeAbsorb(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getLifeAbsorb());
+	else
+	{
+		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerManaAbsorb(lua_State* L)
+{
+	//getPlayerManaAbsorb(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getManaAbsorb());
+	else
+	{
+		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerLifeLeech(lua_State* L)
+{
+	//getPlayerLifeLeech(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getLifeLeech());
+	else
+	{
+		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));
+		lua_pushboolean(L, false);
+	}
+
+	return 1;
+}
+
+int32_t LuaInterface::luaGetPlayerManaLeech(lua_State* L)
+{
+	//getPlayerManaLeech(cid)
+	ScriptEnviroment* env = getEnv();
+	if(Player* player = env->getPlayerByUID(popNumber(L)))
+		lua_pushnumber(L, player->getManaLeech());
 	else
 	{
 		errorEx(getError(LUA_ERROR_CREATURE_NOT_FOUND));

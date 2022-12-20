@@ -496,6 +496,12 @@ class LuaInterface
 		static int32_t luaGetPlayerExperience(lua_State* L);
 		static int32_t luaGetPlayerMagLevel(lua_State* L);
 		static int32_t luaGetPlayerSpentMana(lua_State* L);
+		static int32_t luaGetPlayerCriticalHitChance(lua_State* L);
+		static int32_t luaGetPlayerDodgeChance(lua_State* L);
+		static int32_t luaGetPlayerLifeAbsorb(lua_State* L);
+		static int32_t luaGetPlayerManaAbsorb(lua_State* L);
+		static int32_t luaGetPlayerLifeLeech(lua_State* L);
+		static int32_t luaGetPlayerManaLeech(lua_State* L);
 		static int32_t luaGetCreatureMana(lua_State* L);
 		static int32_t luaGetCreatureMaxMana(lua_State* L);
 		static int32_t luaGetCreatureHealth(lua_State* L);

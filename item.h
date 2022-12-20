@@ -114,6 +114,11 @@ enum AttrTypes_t
 	ATTR_SCRIPTPROTECTED = 42,
 	ATTR_DUALWIELD = 43,
 	ATTR_CRITICALHITCHANCE = 44,
+	ATTR_DODGECHANCE = 45,
+	ATTR_LIFEABSORB = 46,
+	ATTR_MANAABSORB = 47,
+	ATTR_LIFELEECH = 48,
+	ATTR_MANALEECH = 49,
 	ATTR_ATTRIBUTE_MAP = 128
 };
 
@@ -256,11 +261,16 @@ class Item : virtual public Thing, public ItemAttributes
 		bool isDualWield() const;
 
 		int32_t getAttack() const;
-		int32_t getCriticalHitChance() const;
+		// int32_t getCriticalHitChance() const;
 		int32_t getExtraAttack() const;
 		int32_t getDefense() const;
 		int32_t getExtraDefense() const;
-
+		int32_t getCriticalHitChance() const;
+		int32_t getDodgeChance() const;
+		int32_t getLifeAbsorb() const;
+		int32_t getManaAbsorb() const;
+		int32_t getLifeLeech() const;
+		int32_t getManaLeech() const;
 		int32_t getArmor() const;
 		int32_t getAttackSpeed() const;
 		int32_t getHitChance() const;
@@ -396,15 +406,15 @@ inline bool Item::isScriptProtected() const
 	return false;
 }
 
-inline int32_t Item::getCriticalHitChance() const
-{
-	bool ok;
-	int32_t v = getIntegerAttribute("criticalhitchance", ok);
-	if(ok)
-		return v;
+// inline int32_t Item::getCriticalHitChance() const
+// {
+// 	bool ok;
+// 	int32_t v = getIntegerAttribute("criticalhitchance", ok);
+// 	if(ok)
+// 		return v;
 
-	return items[id].criticalHitChance;
-}
+// 	return items[id].criticalHitChance;
+// }
 
 inline int32_t Item::getAttack() const
 {
@@ -444,6 +454,66 @@ inline int32_t Item::getExtraDefense() const
 		return v;
 
 	return items[id].extraDefense;
+}
+
+inline int32_t Item::getCriticalHitChance() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("criticalhitchance", ok);
+	if(ok)
+		return v;
+
+	return items[id].criticalHitChance;
+}
+
+inline int32_t Item::getDodgeChance() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("dodgechance", ok);
+	if(ok)
+		return v;
+
+	return items[id].dodgeChance;
+}
+
+inline int32_t Item::getLifeAbsorb() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("lifeabsorb", ok);
+	if(ok)
+		return v;
+
+	return items[id].lifeAbsorb;
+}
+
+inline int32_t Item::getManaAbsorb() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("manaabsorb", ok);
+	if(ok)
+		return v;
+
+	return items[id].manaAbsorb;
+}
+
+inline int32_t Item::getLifeLeech() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("lifeleech", ok);
+	if(ok)
+		return v;
+
+	return items[id].lifeLeech;
+}
+
+inline int32_t Item::getManaLeech() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("manaleech", ok);
+	if(ok)
+		return v;
+
+	return items[id].manaLeech;
 }
 
 inline int32_t Item::getArmor() const

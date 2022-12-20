@@ -69,7 +69,10 @@ ItemType::ItemType()
 	attack = extraAttack = 0;
 	defense = extraDefense = 0;
 	attackSpeed = 0;
-	criticalHitChance = 0;
+
+	// criticalHitChance = 0;
+	criticalHitChance = dodgeChance = lifeAbsorb = manaAbsorb = lifeLeech = manaLeech = 0;
+
 	armor = 0;
 	decayTo = -1;
 	decayTime = 0;
@@ -730,12 +733,46 @@ void Items::parseItemNode(xmlNodePtr itemNode, uint32_t id)
 				it.extraDefenseRndMin = intValue;
 			if(readXMLInteger(itemAttributesNode, "random_max", intValue))
 				it.extraDefenseRndMax = intValue;
-		}
-		else if(tmpStrValue == "criticalhitchance")
+		}else if(tmpStrValue == "criticalhitchance")
 		{
 			if(readXMLInteger(itemAttributesNode, "value", intValue))
 				it.criticalHitChance = intValue;
 		}
+		
+		else if(tmpStrValue == "dodgechance")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.dodgeChance = intValue;
+		}
+
+		else if(tmpStrValue == "lifeabsorb")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.lifeAbsorb = intValue;
+		}
+
+		else if(tmpStrValue == "manaabsorb")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.manaAbsorb = intValue;
+		}
+
+		else if(tmpStrValue == "lifeleech")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.lifeLeech = intValue;
+		}
+
+		else if(tmpStrValue == "manaleech")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.manaLeech = intValue;
+		}
+		// else if(tmpStrValue == "criticalhitchance")
+		// {
+		// 	if(readXMLInteger(itemAttributesNode, "value", intValue))
+		// 		it.criticalHitChance = intValue;
+		// }
 		else if(tmpStrValue == "attack")
 		{
 			if(readXMLInteger(itemAttributesNode, "value", intValue))

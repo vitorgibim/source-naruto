@@ -488,8 +488,16 @@ class Player : public Creature, public Cylinder
 		bool addUnjustifiedKill(const Player* attacked, bool countNow);
 
 		virtual int32_t getArmor() const;
-		virtual int32_t getCriticalHitChance() const;
+		// virtual int32_t getCriticalHitChance() const;
 		virtual int32_t getDefense() const;
+
+		virtual int32_t getCriticalHitChance() const;
+		virtual int32_t getDodgeChance() const;
+		virtual int32_t getLifeAbsorb() const;
+		virtual int32_t getManaAbsorb() const;
+		virtual int32_t getLifeLeech() const;
+		virtual int32_t getManaLeech() const;
+
 		virtual float getAttackFactor() const;
 		virtual float getDefenseFactor() const;
 
